@@ -1,7 +1,7 @@
 pipeline {
   agent any
   tools {
-    maven 'Maven_3_8_7'
+    maven 'Maven_3_9_11'
   }
 
   stages {
@@ -16,7 +16,7 @@ pipeline {
       steps {
         withDockerRegistry([credentialsId: "dockerlogin", url: ""]) {
           script {
-            app = docker.build("asecurityguru/testeb")
+            app = docker.build("mdafzalr/testeb")
           }
         }
       }
@@ -26,7 +26,7 @@ pipeline {
         withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
           script {
             try {
-              bat("C:\\snyk\\snyk-win.exe  container test asecurityguru/testeb")
+              bat("D:\\DevSecOps\\Container Scan Demo\\snyk-win.exe  container test mdafzalr/testeb")
             } catch (err) {
               echo err.getMessage()
             }
@@ -43,7 +43,7 @@ pipeline {
     }
     stage('RunDASTUsingZAP') {
       steps {
-        bat("C:\\zap\\ZAP_2.12.0_Crossplatform\\ZAP_2.12.0\\zap.sh -port 9393 -cmd -quickurl https://www.example.com -quickprogress -quickout C:\\zap\\ZAP_2.12.0_Crossplatform\\ZAP_2.12.0\\Output.html")
+        bat(""D:\\DevSecOps\\ZAP_2.16.0_Crossplatform\\ZAP_2.16.0\\zap.sh" -port 9393 -cmd -quickurl https://www.example.com -quickprogress -quickout "D:\\DevSecOps\\ZAP_2.16.0_Crossplatform\\ZAP_2.16.0\\Output.html"")
       }
     }
 
